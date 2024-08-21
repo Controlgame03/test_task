@@ -2,12 +2,14 @@ package com.example;
 
 public class PackageInfo {
     private String name;
-    private String versionRelease;
+    private String version;
+    private String release;
     private String arch;
 
-    public PackageInfo(String name, String versionRelease, String arch) {
+    public PackageInfo(String name, String version, String release, String arch) {
         this.name = name;
-        this.versionRelease = versionRelease;
+        this.version = version;
+        this.release = release;
         this.arch = arch;
     }
 
@@ -15,8 +17,12 @@ public class PackageInfo {
         return name;
     }
 
-    public String getVersionRelease() {
-        return versionRelease;
+    public String getVersion() {
+        return version;
+    }
+    
+    public String getRelease() {
+        return release;
     }
 
     public String getArch() {
@@ -38,7 +44,7 @@ public class PackageInfo {
 
     @Override
     public String toString() {
-        return "PackageInfo{name='" + name + "', versionRelease='" + versionRelease + "', arch='" + arch + "'}";
+        return "PackageInfo{name='" + name + "', version='" + version + "', release='" + release + "', arch='" + arch + "'}";
     }
 }
 

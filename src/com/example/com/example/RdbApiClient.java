@@ -14,9 +14,9 @@ import org.json.JSONObject;
 public class RdbApiClient {
     private static final String API_URL = "https://rdb.altlinux.org/api/export/branch_binary_packages/";
 
-    public List<PackageInfo> getPackagesForBranch(String branch) throws Exception {
+    public List<PackageInfo> getPackagesForBranch(String branch, String arch) throws Exception {
     	// Формируем URL
-        String urlStr = API_URL + branch + "?arch=" + "x86_64";;
+        String urlStr = API_URL + branch + "?arch=" + arch;
         try {
         	 URI uri = new URI(urlStr);
              URL url = uri.toURL();
@@ -24,10 +24,6 @@ public class RdbApiClient {
              HttpURLConnection conn = (HttpURLConnection) url.openConnection();
          
              conn.setRequestMethod("GET");
-             
-             
-             
-             
              
              // Обработка ответа
              if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
@@ -63,10 +59,11 @@ public class RdbApiClient {
 	        for (int i = 0; i < jsonArray.length(); i++) {
 	            JSONObject pkg = jsonArray.getJSONObject(i);
 	            String name = pkg.getString("name");
-	            String versionRelease = pkg.getString("version") + "-" + pkg.getString("release");
+	            String version = pkg.getString("version");
+	            String release = pkg.getString("release");
 	            String arch = pkg.getString("arch");
 	
-	            packages.add(new PackageInfo(name, versionRelease, arch));
+	            packages.add(new PackageInfo(name, version, release, arch));
 	        }
         }
         catch(Exception ex) {

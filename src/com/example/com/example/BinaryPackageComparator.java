@@ -1,58 +1,80 @@
 package com.example;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class BinaryPackageComparator {
 
-    public JSONObject comparePackageLists(List<PackageInfo> list1, List<PackageInfo> list2) {
-        Map<String, PackageInfo> map1 = createPackageMap(list1);
-        Map<String, PackageInfo> map2 = createPackageMap(list2);
-
-        JSONArray onlyInFirst = new JSONArray();
-        JSONArray onlyInSecond = new JSONArray();
-        JSONArray versionHigherInFirst = new JSONArray();
-
-        for (String key : map1.keySet()) {
-            if (!map2.containsKey(key)) {
-                onlyInFirst.put(map1.get(key).getName() + " (" + map1.get(key).getArch() + ")");
-            } else {
-                if (compareVersion(map1.get(key).getVersionRelease(), map2.get(key).getVersionRelease()) > 0) {
-                    versionHigherInFirst.put(map1.get(key).getName() + " (" + map1.get(key).getArch() + ")");
-                }
-            }
-        }
-
-        for (String key : map2.keySet()) {
-            if (!map1.containsKey(key)) {
-                onlyInSecond.put(map2.get(key).getName() + " (" + map2.get(key).getArch() + ")");
-            }
-        }
-
+    public JSONObject comparePackageLists(List<PackageInfo> list1, List<PackageInfo> list2, String branch1, String branch2) {
         JSONObject result = new JSONObject();
         try {
-        	result.put("onlyInFirstBranch", onlyInFirst);
-        	result.put("onlyInSecondBranch", onlyInSecond);
-        	result.put("versionHigherInFirstBranch", versionHigherInFirst);
+            result.put("unique_in_" + branch1, getUniquePackages(list1, list2));
+            result.put("unique_in_" + branch2, getUniquePackages(list2, list1));
+            result.put("version_greater_in_" + branch1, getVersionGreaterPackages(list1, list2));
         }
-        catch(Exception ex) {
-        	System.out.print(ex.getMessage());
+        catch(JSONException ex) {
+            System.out.print(ex.getMessage());
         }
         return result;
     }
 
-    private Map<String, PackageInfo> createPackageMap(List<PackageInfo> packageList) {
-        Map<String, PackageInfo> packageMap = new HashMap<>();
-        for (PackageInfo pkg : packageList) {
-            packageMap.put(pkg.getName() + ":" + pkg.getArch(), pkg);
+    private JSONArray getUniquePackages(List<PackageInfo> sourceList, List<PackageInfo> targetList) {
+        Map<String, Boolean> targetMap = new HashMap<>();
+        for (PackageInfo pkg : targetList) {
+            targetMap.put(pkg.getName(), true);
         }
-        return packageMap;
+
+        JSONArray uniquePackages = new JSONArray();
+        for (PackageInfo pkg : sourceList) {
+            if (!targetMap.containsKey(pkg.getName())) {
+                uniquePackages.put(pkg.getName());
+            }
+        }
+        return uniquePackages;
     }
 
-    private int compareVersion(String v1, String v2) {
-        return v1.compareTo(v2);
+    private JSONArray getVersionGreaterPackages(List<PackageInfo> list1, List<PackageInfo> list2) {
+        Map<String, PackageInfo> list2Map = new HashMap<>();
+        for (PackageInfo pkg : list2) {
+            list2Map.put(pkg.getName(), pkg);
+        }
+
+        JSONArray greaterVersionPackages = new JSONArray();
+        for (PackageInfo pkg : list1) {
+            PackageInfo targetPkg = list2Map.get(pkg.getName());
+            if (targetPkg != null && compareVersion(pkg.getVersion(), targetPkg.getVersion()) > 0) {
+                greaterVersionPackages.put(pkg.getName());
+            }
+        }
+        return greaterVersionPackages;
+    }
+
+    private int compareVersion(String version1, String version2) {
+        String[] parts1 = version1.split("\\."); // Разделяем по точкам
+        String[] parts2 = version2.split("\\."); // Разделяем по точкам
+
+        int maxLength = Math.max(parts1.length, parts2.length); // Максимальная длина версий
+
+        for (int i = 0; i < maxLength; i++) {
+            // Получаем части, если они существуют, иначе считаем равными 0
+            String part1 = i < parts1.length ? parts1[i].replaceAll("\\D+", "") : "0"; // Удаляем нечисловые символы
+            String part2 = i < parts2.length ? parts2[i].replaceAll("\\D+", "") : "0"; // Удаляем нечисловые символы
+
+            // Проверяем, являются ли строки пустыми или равны 0
+            long num1 = part1.isEmpty() ? 0 : Long.parseLong(part1); // Преобразуем в long
+            long num2 = part2.isEmpty() ? 0 : Long.parseLong(part2); // Преобразуем в long
+
+            // Сравниваем числовые представления
+            if (num1 != num2) {
+                return Long.compare(num1, num2); // Возвращаем результат сравнения
+            }
+        }
+
+        return 0; // Если все части равны, возвращаем 0
     }
 }
