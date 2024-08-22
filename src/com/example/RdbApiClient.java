@@ -15,7 +15,7 @@ public class RdbApiClient {
     private static final String API_URL = "https://rdb.altlinux.org/api/export/branch_binary_packages/";
 
     public List<PackageInfo> getPackagesForBranch(String branch, String arch) throws Exception {
-    	// Формируем URL
+    	// формируем URL
         String urlStr = API_URL + branch + "?arch=" + arch;
         try {
         	 URI uri = new URI(urlStr);
@@ -25,7 +25,7 @@ public class RdbApiClient {
          
              conn.setRequestMethod("GET");
              
-             // Обработка ответа
+             // обработка ответа
              if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
                  throw new RuntimeException("Failed to get response from API: HTTP code " + conn.getResponseCode());
              }
@@ -35,11 +35,6 @@ public class RdbApiClient {
              
              
              inputLine = in.readLine();
-//             inputLine = in.readLine();
-//             inputLine = in.readLine();
-//             while ((inputLine = in.readLine()) != null) {
-//                 content.append(inputLine);
-//             }
              StringBuilder content = new StringBuilder(inputLine);
              in.close();
              conn.disconnect();

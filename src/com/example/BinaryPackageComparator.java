@@ -55,26 +55,24 @@ public class BinaryPackageComparator {
     }
 
     private int compareVersion(String version1, String version2) {
-        String[] parts1 = version1.split("\\."); // Разделяем по точкам
-        String[] parts2 = version2.split("\\."); // Разделяем по точкам
+        String[] parts1 = version1.split("\\.");
+        String[] parts2 = version2.split("\\."); 
 
-        int maxLength = Math.max(parts1.length, parts2.length); // Максимальная длина версий
+        int maxLength = Math.max(parts1.length, parts2.length);
 
         for (int i = 0; i < maxLength; i++) {
-            // Получаем части, если они существуют, иначе считаем равными 0
-            String part1 = i < parts1.length ? parts1[i].replaceAll("\\D+", "") : "0"; // Удаляем нечисловые символы
-            String part2 = i < parts2.length ? parts2[i].replaceAll("\\D+", "") : "0"; // Удаляем нечисловые символы
+            String part1 = i < parts1.length ? parts1[i].replaceAll("\\D+", "") : "0";
+            String part2 = i < parts2.length ? parts2[i].replaceAll("\\D+", "") : "0";
 
-            // Проверяем, являются ли строки пустыми или равны 0
-            long num1 = part1.isEmpty() ? 0 : Long.parseLong(part1); // Преобразуем в long
-            long num2 = part2.isEmpty() ? 0 : Long.parseLong(part2); // Преобразуем в long
+            long num1 = part1.isEmpty() ? 0 : Long.parseLong(part1);
+            long num2 = part2.isEmpty() ? 0 : Long.parseLong(part2);
 
-            // Сравниваем числовые представления
+            // сравниваем числовые представления
             if (num1 != num2) {
-                return Long.compare(num1, num2); // Возвращаем результат сравнения
+                return Long.compare(num1, num2); // возвращаем результат сравнения
             }
         }
 
-        return 0; // Если все части равны, возвращаем 0
+        return 0; // если все части равны, возвращаем 0
     }
 }
