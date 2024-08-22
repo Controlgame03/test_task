@@ -13,7 +13,7 @@ A Java application that compares binary packages from two branches of a public R
 
 ## Introduction
 
-This project utilizes the **ALT Linux REST API** ([API Link](https://rdb.altlinux.org/api/)) to compare binary packages across different branches, such as `sisyphus`, `p9`, `p10`, and `p11`. The application identifies:
+This project utilizes the **ALT Linux REST API** ([API Link](https://rdb.altlinux.org/api/)) to compare binary packages across different branches, such as `sisyphus`, `p9`, `p10`, and `p11`. The application identifies the following:
 
 - Packages that exist in the **first branch** but not in the **second**
 - Packages that exist in the **second branch** but not in the **first**
@@ -25,17 +25,16 @@ This functionality is available for each supported architecture, ensuring flexib
 
 - **Branch Comparison**: Compare binary packages between any two branches.
 - **JSON Output**: Output comparison results in a well-structured JSON file.
-- **Multiple Branch Support**: Easily switch between branches: `sisyphus`, `p9`, `p10`, `p11`.
+- **Support for Multiple Branches**: Easily switch between branches: `sisyphus`, `p9`, `p10`, `p11`.
 
 ## Requirements
 
-Before you begin, please ensure you have the following installed on your machine:
+Before you begin, please ensure that you have the following software installed on your machine:
 
 - **Java JDK**: Java Development Kit (JDK) version 11 or higher.
 - **Javac**: The Java compiler (included with the JDK installation).
 
 You can check if Java and Javac are installed by running:
-
 
 `java -version`
 
@@ -44,13 +43,12 @@ You can check if Java and Javac are installed by running:
 
 ### Dependency
 
-This project requires the `java-json.jar` library, located in the `lib` directory. This library is essential for handling JSON data within the application. Please ensure that the library is available in your project before running the application.
+This project requires the `java-json.jar` library, which is located in the `lib` directory. This library is essential for handling JSON data within the application. Please ensure that the library is available in your project before running the application.
 
 ## Installation
 
-1. Clone the repository:
+1. Clone the repository to your local machine:
 
-   
 `git clone https://github.com/Controlgame03/test_task.git`
 
 `cd test_task`
@@ -58,15 +56,14 @@ This project requires the `java-json.jar` library, located in the `lib` director
 
 2. Compile the project by running the compile script:
 
-  
 `./compile.sh`
 
 
 ## Usage
 
-To compare packages between two branches, execute the run script with the branch names as arguments:
+To compare packages between two branches, run the `run.sh` script with the branch names as arguments:
 
-```./run.sh <branch1> <branch2>```
+`./run.sh <branch1> <branch2>`
 
 
 ### Example:
@@ -83,6 +80,10 @@ To compare packages between two branches, execute the run script with the branch
 
 Make sure to pass only valid branch names as arguments to avoid errors.
 
+### Output Files
+
+After the completion of the `run.sh` script, the resulting files will be generated in the format `output_{arch}.json`, where `{arch}` represents each architecture. These files contain the comparison results for the specified branches.
+
 ## Scripts
 
 ### `compile.sh`
@@ -92,4 +93,3 @@ This script compiles the Java files located in the `src` directory and generates
 ### `run.sh`
 
 This script executes the Java application to compare packages. It requires two branch names as arguments and validates them to ensure they are among the supported branches.
-
