@@ -1,4 +1,4 @@
- # Java Binary Package Comparator
+# Java Binary Package Comparator
 
 A Java application that compares binary packages from two branches of a public REST API provided by ALT Linux. This tool retrieves lists of binary packages from specified branches, compares them, and outputs the results in a JSON file.
 
@@ -13,26 +13,26 @@ A Java application that compares binary packages from two branches of a public R
 
 ## Introduction
 
-This project utilizes the ALT Linux REST API (https://rdb.altlinux.org/api/) to compare binary packages across different branches, such as `sisyphus`, `p9`, `p10`, and `p11`. The application identifies:
+This project utilizes the **ALT Linux REST API** ([API Link](https://rdb.altlinux.org/api/)) to compare binary packages across different branches, such as `sisyphus`, `p9`, `p10`, and `p11`. The application identifies:
 
-- Packages that exist in the first branch but not in the second
-- Packages that exist in the second branch but not in the first
-- Packages where the `version-release` in the first branch is greater than in the second
+- Packages that exist in the **first branch** but not in the **second**
+- Packages that exist in the **second branch** but not in the **first**
+- Packages where the **`version-release`** in the **first branch** is greater than in the **second**
 
-This functionality is available for each supported architecture.
+This functionality is available for each supported architecture, ensuring flexibility and compatibility.
 
 ## Features
 
-- Compare binary packages between two branches.
-- Output comparison results in a JSON file.
-- Support for multiple branches: `sisyphus`, `p9`, `p10`, `p11`.
+- **Branch Comparison**: Compare binary packages between any two branches.
+- **JSON Output**: Output comparison results in a well-structured JSON file.
+- **Multiple Branch Support**: Easily switch between branches: `sisyphus`, `p9`, `p10`, `p11`.
 
 ## Requirements
 
-Before you begin, ensure you have the following installed:
+Before you begin, please ensure you have the following installed on your machine:
 
-- **Java JDK**: Ensure you have Java Development Kit (JDK) 8 or higher installed on your machine.
-- **Javac**: The Java compiler (should be included with the JDK installation).
+- **Java JDK**: Java Development Kit (JDK) version 8 or higher.
+- **Javac**: The Java compiler (included with the JDK installation).
 
 You can check if Java and Javac are installed by running:
 
@@ -40,7 +40,10 @@ bash
 java -version
 javac -version
 
-This project requires the `java-json.jar` library, which is located in the `lib` directory. This library is essential for handling JSON data within the application. Please ensure that the library is available in your project before running the application.
+
+### Dependency
+
+This project requires the `java-json.jar` library, located in the `lib` directory. This library is essential for handling JSON data within the application. Please ensure that the library is available in your project before running the application.
 
 ## Installation
 
@@ -49,7 +52,7 @@ This project requires the `java-json.jar` library, which is located in the `lib`
    
 bash
 git clone https://github.com/Controlgame03/test_task.git
-cd yourproject
+cd test_task
 
 
 2. Compile the project by running the compile script:
@@ -67,7 +70,7 @@ bash
 ./run.sh <branch1> <branch2>
 
 
-**Example:**
+### Example:
 
 bash
 ./run.sh sisyphus p10
@@ -80,15 +83,15 @@ bash
 - `p10`
 - `p11`
 
-Make sure to pass only valid branch names as arguments.
-
+Make sure to pass only valid branch names as arguments to avoid errors.
 
 ## Scripts
 
 ### `compile.sh`
 
-This script compiles the Java files in the `src` directory and generates the corresponding class files in the `bin` directory.
+This script compiles the Java files located in the `src` directory and generates the corresponding class files in the `bin` directory.
 
 ### `run.sh`
 
-This script runs the Java application to compare packages. It requires two branch names as arguments and performs validation to ensure they are among the supported branches.
+This script executes the Java application to compare packages. It requires two branch names as arguments and validates them to ensure they are among the supported branches.
+
