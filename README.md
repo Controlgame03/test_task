@@ -27,19 +27,37 @@ This functionality is available for each supported architecture, ensuring flexib
 - **JSON Output**: Output comparison results in a well-structured JSON file.
 - **Support for Multiple Branches**: Easily switch between branches: `sisyphus`, `p9`, `p10`, `p11`.
 
+
 ## Requirements
 
 Before you begin, please ensure that you have the following software installed on your machine:
 
-- **Java JDK**: Java Development Kit (JDK) version 11 or higher.
-- **Javac**: The Java compiler (included with the JDK installation).
+- **Java JDK**: Java Development Kit (JDK) version 11 or higher. If Java is not installed on your system, you can install it on ALT Linux using the following command (for ALT Linux):
+
+  
+`apt-get install java-11-openjdk`
+
+
+- **Javac**: The Java compiler (included with the JDK installation). If the `javac` compiler is not available, you can install it with (for ALT Linux):
+
+  
+`apt-get install java-11-openjdk-devel`
 
 You can check if Java and Javac are installed by running:
+
 
 `java -version`
 
 `javac -version`
 
+### Setting the Default Java File Encoding to UTF-8
+
+If you encounter the error `error: unmappable character for encoding ASCII`, you may need to set the default Java file encoding to UTF-8. You can do this by exporting the following environment variable:
+
+`export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8`
+
+
+This configuration ensures that Java application correctly handles files with non-ASCII characters, providing compatibility and preventing encoding-related issues.
 
 ### Dependency
 
