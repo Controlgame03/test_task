@@ -31,14 +31,15 @@ This functionality is available for each supported architecture, ensuring flexib
 
 Before you begin, please ensure you have the following installed on your machine:
 
-- **Java JDK**: Java Development Kit (JDK) version 8 or higher.
+- **Java JDK**: Java Development Kit (JDK) version 11 or higher.
 - **Javac**: The Java compiler (included with the JDK installation).
 
 You can check if Java and Javac are installed by running:
 
-bash
-java -version
-javac -version
+
+`java -version`
+
+`javac -version`
 
 
 ### Dependency
@@ -50,30 +51,27 @@ This project requires the `java-json.jar` library, located in the `lib` director
 1. Clone the repository:
 
    
-bash
-git clone https://github.com/Controlgame03/test_task.git
-cd test_task
+`git clone https://github.com/Controlgame03/test_task.git`
+
+`cd test_task`
 
 
 2. Compile the project by running the compile script:
 
-   
-bash
-./compile.sh
+  
+`./compile.sh`
 
 
 ## Usage
 
 To compare packages between two branches, execute the run script with the branch names as arguments:
 
-bash
-./run.sh <branch1> <branch2>
+```./run.sh <branch1> <branch2>```
 
 
 ### Example:
 
-bash
-./run.sh sisyphus p10
+`./run.sh sisyphus p10`
 
 
 ### Valid Branches
