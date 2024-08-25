@@ -14,41 +14,41 @@ public class Main {
             return;
         }
 
-        // проверяем, что аргументы переданы
+        // Check that arguments are passed
         if (args.length == 0) {
-            System.out.println("Ошибка: Не указаны ветки.");
+            System.out.println("Error: No branches specified.");
             return;
         }
         String branch1 = args[0];
         String branch2 = args[1];
 
-        // список допустимых веток
+        // List of allowed branches
         List<String> validBranches = Arrays.asList("sisyphus", "p9", "p10", "p11");
 
-        // проверяем каждую ветку на соответствие допустимым значениям
+        // Check each branch against the allowed values
         for (String branch : args) {
             if (!validBranches.contains(branch)) {
-                System.out.println("Ошибка: Ветка '" + branch + "' не является допустимой. " +
-                                   "Допустимые ветки: " + validBranches);
+                System.out.println("Error: Branch '" + branch + "' is not valid. " +
+                                   "Allowed branches: " + validBranches);
                 return;
             }
         }
 
-    	// список архитектур
+    	// List of architectures
         List<String> architectures = Arrays.asList("x86_64", "i586", "noarch", "aarch64", "ppc64le", "armh");
 
-        // удаляем старые файлы output_{arch}.json
+        // Delete old output_{arch}.json files
         for (String arch : architectures) {
             String outputFileName = "output_" + arch + ".json";
             try {
                 Files.deleteIfExists(Paths.get(outputFileName));
             } catch (Exception e) {
-                e.printStackTrace(); // Обработка ошибок при удалении файлов
+                e.printStackTrace(); // Error handling during file deletion
             }
         }
 
         for (String arch : architectures) {
-            // проверяем условия, чтобы пропустить выполнение для определенных архитектур
+            // Check conditions to skip execution for certain architectures
             if ((branch1.equals("sisyphus") || branch2.equals("sisyphus")) && arch.equals("armh")) {
                 continue;
             }
@@ -56,7 +56,7 @@ public class Main {
                 continue;
             }
 
-            // цикл по архитектурам
+            // Loop through architectures
             try {
                 RdbApiClient client = new RdbApiClient();
                 List<PackageInfo> packagesBranch1 = client.getPackagesForBranch(branch1, arch);
@@ -66,20 +66,20 @@ public class Main {
 
                 String outputFileName = "output_" + arch + ".json";
                 writeJsonToFile(resultJSON, outputFileName);
-                System.out.println("Сравнение завершено для архитектуры: " + arch);
+                System.out.println("Comparison completed for architecture: " + arch);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("Конец программы");
+        System.out.println("End of program");
     }
 
     public static void writeJsonToFile(JSONObject jsonObject, String filename) {
         try (FileWriter fileWriter = new FileWriter(filename)) {
-            fileWriter.write(jsonObject.toString(4)); // 4 - отступы для удобного форматирования
-            fileWriter.flush(); // Принудительное завершение записи
+            fileWriter.write(jsonObject.toString(4)); // 4 - indentation for easy formatting
+            fileWriter.flush(); // Force completion of writing
         } catch (Exception e) {
-            e.printStackTrace(); // Обработка возможных исключений
+            e.printStackTrace(); // Exception handling
         }
     }
 }

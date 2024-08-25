@@ -1,40 +1,41 @@
 #!/bin/bash
 
-# Скрипт для сравнения пакетов между двумя ветками
+# Script for comparing packages between two branches
 
-# Функция для вывода справки
+# Function to display help
 usage() {
-    echo "Использование: $0 <ветка1> <ветка2>"
-    echo "Пример: $0 sisyphus p10"
+    echo "Usage: $0 <branch1> <branch2>"
+    echo "Example: $0 sisyphus p10"
     exit 1
 }
 
-# Проверка наличия обязательных аргументов
+# Check for the presence of required arguments
 if [ "$#" -ne 2 ]; then
-    echo "Ошибка: Некорректное количество аргументов."
+    echo "Error: Incorrect number of arguments."
     usage
 fi
 
 branch1=$1
 branch2=$2
 
-# Список допустимых веток
+# List of valid branches
 valid_branches=("sisyphus" "p9" "p10" "p11")
 
-# Проверка на допустимость веток
+# Check for valid branches
 if [[ ! " ${valid_branches[@]} " =~ " ${branch1} " ]] || [[ ! " ${valid_branches[@]} " =~ " ${branch2} " ]]; then
-    echo "Ошибка: Неверные ветки."
-    echo "Допустимые ветки: ${valid_branches[*]}"
+    echo "Error: Invalid branches."
+    echo "Valid branches: ${valid_branches[*]}"
     exit 1
 fi
 
-# Запуск Java программы
-echo "Запуск сравнения пакетов между ветками $branch1 и $branch2..."
+# Running the Java program
+echo "Starting package comparison between branches $branch1 and $branch2..."
 java -cp "bin:lib/java-json.jar" com.example.Main "$branch1" "$branch2"
 
-# Проверяем код завершения последней команды
+# Check the exit code of the last command
 if [ $? -eq 0 ]; then
-    echo "Сравнение завершено успешно."
+    echo "Comparison completed successfully."
 else
-    echo "Произошла ошибка при выполнении программы."
+    echo "An error occurred while running the program."
 fi
+

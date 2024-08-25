@@ -57,11 +57,9 @@ public class BinaryPackageComparator {
 
     private String getPriorityBranch(String str1, String str2) {
     	if (str1.matches("p\\d+") && str2.matches("p\\d+")) {
-            // Извлечение числовых частей из строк
             int num1 = Integer.parseInt(str1.substring(1));
             int num2 = Integer.parseInt(str2.substring(1));
 
-            // Сравнение числовых значений и возврат строки с большим числом
             if (num1 > num2) return str1;
 
             else return str2;
