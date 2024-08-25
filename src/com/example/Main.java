@@ -7,7 +7,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-
 public class Main {
     public static void main(String[] args) {
         if (args.length != 2) {
@@ -15,18 +14,17 @@ public class Main {
             return;
         }
 
-        String branch1 = args[0];
-        String branch2 = args[1];  	
-    	
         // проверяем, что аргументы переданы
         if (args.length == 0) {
             System.out.println("Ошибка: Не указаны ветки.");
             return;
         }
+        String branch1 = args[0];
+        String branch2 = args[1];
 
         // список допустимых веток
         List<String> validBranches = Arrays.asList("sisyphus", "p9", "p10", "p11");
-        
+
         // проверяем каждую ветку на соответствие допустимым значениям
         for (String branch : args) {
             if (!validBranches.contains(branch)) {
@@ -35,7 +33,7 @@ public class Main {
                 return;
             }
         }
-        
+
     	// список архитектур
         List<String> architectures = Arrays.asList("x86_64", "i586", "noarch", "aarch64", "ppc64le", "armh");
 
@@ -52,7 +50,7 @@ public class Main {
         for (String arch : architectures) {
             // проверяем условия, чтобы пропустить выполнение для определенных архитектур
             if ((branch1.equals("sisyphus") || branch2.equals("sisyphus")) && arch.equals("armh")) {
-                continue; 
+                continue;
             }
             if ((branch1.equals("p11") || branch2.equals("p11")) && (arch.equals("armh") || arch.equals("ppc64le"))) {
                 continue;
@@ -75,7 +73,7 @@ public class Main {
         }
         System.out.println("Конец программы");
     }
-    
+
     public static void writeJsonToFile(JSONObject jsonObject, String filename) {
         try (FileWriter fileWriter = new FileWriter(filename)) {
             fileWriter.write(jsonObject.toString(4)); // 4 - отступы для удобного форматирования

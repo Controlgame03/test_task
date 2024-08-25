@@ -2,14 +2,20 @@ package com.example;
 
 public class PackageInfo {
     private String name;
+    private int epoch;
     private String version;
     private String release;
+    private String disttag;
+    private int buildtime;
     private String arch;
 
-    public PackageInfo(String name, String version, String release, String arch) {
+    public PackageInfo(String name, int epoch, String version, String release, String disttag, int buildtime, String arch) {
         this.name = name;
+        this.epoch = epoch;
         this.version = version;
         this.release = release;
+        this.disttag = disttag;
+        this.buildtime = buildtime;
         this.arch = arch;
     }
 
@@ -17,12 +23,24 @@ public class PackageInfo {
         return name;
     }
 
+    public int getEpoch() {
+        return epoch;
+    }
+
     public String getVersion() {
         return version;
     }
-    
+
     public String getRelease() {
         return release;
+    }
+
+    public String getDisttag() {
+        return disttag;
+    }
+
+    public int getBuildtime() {
+        return buildtime;
     }
 
     public String getArch() {
@@ -44,7 +62,7 @@ public class PackageInfo {
 
     @Override
     public String toString() {
-        return "PackageInfo{name='" + name + "', version='" + version + "', release='" + release + "', arch='" + arch + "'}";
+        return "PackageInfo{name='" + name + "', epoch='" + epoch + "', version='" + version + "', release='" + release + "', disttag='" + disttag + ", buildtime=" + buildtime + "', arch='" + arch + "'}";
     }
 }
 

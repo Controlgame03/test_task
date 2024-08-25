@@ -22,9 +22,9 @@ public class RdbApiClient {
              URL url = uri.toURL();
 
              HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-         
+
              conn.setRequestMethod("GET");
-             
+
              // обработка ответа
              if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
                  throw new RuntimeException("Failed to get response from API: HTTP code " + conn.getResponseCode());
@@ -32,13 +32,12 @@ public class RdbApiClient {
 
              BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
              String inputLine;
-             
-             
+
              inputLine = in.readLine();
              StringBuilder content = new StringBuilder(inputLine);
+
              in.close();
              conn.disconnect();
-
              return parsePackages(content.toString());
         } catch (URISyntaxException e) {
             throw new RuntimeException("Invalid URL: " + urlStr, e);
@@ -50,21 +49,23 @@ public class RdbApiClient {
         try {
 	        JSONObject jsonObject = new JSONObject(jsonStr);
 	        JSONArray jsonArray = jsonObject.getJSONArray("packages");
-	
+
 	        for (int i = 0; i < jsonArray.length(); i++) {
 	            JSONObject pkg = jsonArray.getJSONObject(i);
 	            String name = pkg.getString("name");
+	            int epoch = pkg.getInt("epoch");
 	            String version = pkg.getString("version");
 	            String release = pkg.getString("release");
+	            String disttag = pkg.getString("disttag");
+	            int buildtime = pkg.getInt("buildtime");
 	            String arch = pkg.getString("arch");
-	
-	            packages.add(new PackageInfo(name, version, release, arch));
+
+	            packages.add(new PackageInfo(name, epoch, version, release, disttag, buildtime, arch));
 	        }
         }
         catch(Exception ex) {
         	System.out.print(ex.getMessage());
         }
-
         return packages;
     }
 }
